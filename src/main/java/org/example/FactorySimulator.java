@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class FactorySimulator {
-    public static void main(String[] args) {
+    public static void iniciar() {
         int bufferSize = 100;
         BlockingQueue<Integer> buffer = new ArrayBlockingQueue<>(bufferSize);
 

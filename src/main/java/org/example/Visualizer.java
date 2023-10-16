@@ -2,25 +2,49 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 class Visualizer extends JFrame {
     private int[] distribution;
     private DistributionPanel distributionPanel;
+    private ScheduledExecutorService executorService;
 
     public Visualizer() {
         distribution = new int[100]; // Ejemplo: 100 contenedores
         distributionPanel = new DistributionPanel();
+        executorService = Executors.newScheduledThreadPool(1);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 400);
         add(distributionPanel);
 
+        // Programa la tarea de actualización cada cierto intervalo
+        executorService.scheduleAtFixedRate(this::updateDistributionTask, 0, 500, TimeUnit.MILLISECONDS);
+
         setVisible(true);
     }
 
-    public void updateDistribution(int[] newDistribution) {
-        distribution = newDistribution;
+    private void updateDistributionTask() {
+        // Lógica para actualizar la distribución en tiempo real
+        distribution = generateRandomDistribution();
         distributionPanel.repaint();
+    }
+
+    // Esta es solo una distribución aleatoria de ejemplo, debes adaptarla a tus necesidades
+    private int[] generateRandomDistribution() {
+        int[] randomDistribution = new int[100];
+        Random random = new Random();
+        for (int i = 0; i < randomDistribution.length; i++) {
+            randomDistribution[i] = random.nextInt(400); // Ejemplo: valores aleatorios
+        }
+        return randomDistribution;
+    }
+
+    public void updateDistribution(int[] newDistribution) {
+        // Este método ya no se utiliza para actualizar en tiempo real
     }
 
     private class DistributionPanel extends JPanel {
